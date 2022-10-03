@@ -24,13 +24,13 @@ public class RetroSun extends PApplet {
     @Override
     public void settings() {
         // 1. Set the size of your sketch to at least 800 width, 600 height
-        
+        setSize(WIDTH, HEIGHT);
     }
 
     @Override
     public void setup() {
         // 2. Set bgColor as the background color
-        
+        background(bgColor);
     }
 
     @Override
@@ -38,7 +38,9 @@ public class RetroSun extends PApplet {
         /*
          * PART 1: Drawing the sun
          */
-
+ellipse(400,300,400,400);
+fill(sunColors[0]);
+noStroke();
         // Draw an ellipse for the sun in the center of the window
         // Use fill(sunColors[0]) to make it yellow
         // Use noStroke() to remove the black outline
@@ -52,6 +54,7 @@ public class RetroSun extends PApplet {
          *
          * This will make the sun have gradually different colors from the top to bottom
          */
+loadPixels();
 
         // Call the loadPixels() method to put all the pixel colors into
         // the pixels[] array
@@ -63,7 +66,15 @@ public class RetroSun extends PApplet {
         // If pixel[i] is the same color as the color of our circle (sunColors[0]),
         // we need to map the pixel to a color in our sunColors[] array
         // (see 2nd gradient image in RetroSun.html)
-
+for (int i = 0; i < pixels.length; i++) {
+	if (pixels[i]== sunColors[0]) {
+		int y = i / width;
+        float step = map(y, 100, 500, 0, 1);
+     pixels[i] = interpolateColor(sunColors, step);
+    
+	}
+}
+updatePixels();
         // The top of the sun is yellow (sunColors[0]) and the bottom
         // of the sun is red (sunColors[sunColors.length - 1]
 
@@ -89,7 +100,7 @@ public class RetroSun extends PApplet {
          * The missing parts of the sun are created by drawing rectangles over the sun
          * with the same color as the background.
          */
-
+fill(bgColor);
         // Set the fill color to the background color
 
         // To draw each rectangle we need to find its x, y, width, height

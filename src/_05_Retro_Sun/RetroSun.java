@@ -1,5 +1,8 @@
 package _05_Retro_Sun;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import processing.core.PApplet;
 
 /*
@@ -11,7 +14,9 @@ import processing.core.PApplet;
 public class RetroSun extends PApplet {
     static final int WIDTH = 800;
     static final int HEIGHT = 600;
-
+    ArrayList<Rectangle> missingSun = new ArrayList<Rectangle>(3);
+    float y;
+    float h;
     // RGB colors
     int[] sunColors = {
             color(212, 202, 11), color(214, 198, 30), color(211, 170, 26),
@@ -31,16 +36,28 @@ public class RetroSun extends PApplet {
     public void setup() {
         // 2. Set bgColor as the background color
         background(bgColor);
-    }
+       y = width / 2;
+        h = 40;
+     
 
+
+        for (int i = 0; i < 3; i++) {
+        	Rectangle newRectangle = new Rectangle(400 - 200,y-(i*2),2 * 200,h);
+      	  missingSun.add(newRectangle);
+      	  
+  	}
+    }
+    
     @Override
     public void draw() {
         /*
          * PART 1: Drawing the sun
          */
+    	fill(sunColors[0]);
 ellipse(400,300,400,400);
-fill(sunColors[0]);
+
 noStroke();
+
         // Draw an ellipse for the sun in the center of the window
         // Use fill(sunColors[0]) to make it yellow
         // Use noStroke() to remove the black outline
@@ -71,8 +88,9 @@ for (int i = 0; i < pixels.length; i++) {
 		int y = i / width;
         float step = map(y, 100, 500, 0, 1);
      pixels[i] = interpolateColor(sunColors, step);
-    
-	}
+   
+;	}
+	
 }
 updatePixels();
         // The top of the sun is yellow (sunColors[0]) and the bottom
@@ -100,12 +118,20 @@ updatePixels();
          * The missing parts of the sun are created by drawing rectangles over the sun
          * with the same color as the background.
          */
+
+
+float x = 400 - 200;
+float w = 2 * 200;
+
 fill(bgColor);
+rect(x,y, w,h);
+
+
         // Set the fill color to the background color
 
         // To draw each rectangle we need to find its x, y, width, height
         // *The y position can be any value within the sun:
-        //  float y = width / 2;
+        //  
         // *The height can be any value you choose:
         //  float h = 40;
         // *The x position can be the center of the sun's x position minus the radius:
@@ -121,8 +147,15 @@ fill(bgColor);
          *
          * To move a section upwards each rectangle's y value needs to decrease. To make
          * the section get smaller, its height needs to also decrease.
+         * 
          */
 
+	y=y-1;	
+	h = map(y, 200, 600, 1, 70);
+if (y<200) {
+	
+	y=500;
+}
         // Decrease the y variable of the rectangular section created in PART 3.
         // If there isn't a variable, declare a float variable OUTSIDE of the
         // draw function AND initialize it in the setup() function.
@@ -158,7 +191,18 @@ fill(bgColor);
         // HINT: You can use the Rectangle class defined below to create
         // a list of Rectangles.
 
-        
+for (int i = 0; i < 3; i++) {
+	Rectangle r =missingSun.get(i);
+	fill(bgColor);
+	rect(r.x, r.y, r.w, r.h);
+	r.y = r.y-1;
+	//r.h = map(r.y, 200, 600, 1, 70);
+	//if (r.y<200) {
+		
+		//r.y=500;
+	//}
+}
+     
         /*
          * PART 6: Adding extras
          *

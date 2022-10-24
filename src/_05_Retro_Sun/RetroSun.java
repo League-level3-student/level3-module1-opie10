@@ -1,5 +1,6 @@
 package _05_Retro_Sun;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -15,8 +16,11 @@ public class RetroSun extends PApplet {
     static final int WIDTH = 800;
     static final int HEIGHT = 600;
     ArrayList<Rectangle> missingSun = new ArrayList<Rectangle>(3);
+    ArrayList<Star> stars = new ArrayList<Star>(20);
     float y;
     float h;
+    float yt;
+	float ht;
     // RGB colors
     int[] sunColors = {
             color(212, 202, 11), color(214, 198, 30), color(211, 170, 26),
@@ -36,16 +40,21 @@ public class RetroSun extends PApplet {
     public void setup() {
         // 2. Set bgColor as the background color
         background(bgColor);
-       y = width / 2;
-        h = 40;
+      
+       
+        
+for (int i = 0; i < 5; i++) {
+float	yt=height/2+width/2-(i*60);
+float	ht = map(y,height/2-100,height/2+200,0,40);
+float	 xt = 400 - 200;
+	 float wt = 2 * 200;
+Rectangle r = new Rectangle(xt,yt,wt,ht);
+missingSun.add(r);
+fill(bgColor);
+rect(xt,yt, wt,ht);
+}
+
      
-
-
-        for (int i = 0; i < 3; i++) {
-        	Rectangle newRectangle = new Rectangle(400 - 200,y-(i*2),2 * 200,h);
-      	  missingSun.add(newRectangle);
-      	  
-  	}
     }
     
     @Override
@@ -120,11 +129,7 @@ updatePixels();
          */
 
 
-float x = 400 - 200;
-float w = 2 * 200;
 
-fill(bgColor);
-rect(x,y, w,h);
 
 
         // Set the fill color to the background color
@@ -149,13 +154,31 @@ rect(x,y, w,h);
          * the section get smaller, its height needs to also decrease.
          * 
          */
+for (int i = 0; i < missingSun.size(); i++) {
+	
+	fill(bgColor);
+	rect(missingSun.get(i).x,missingSun.get(i).y,missingSun.get(i).w,missingSun.get(i).h);
+	missingSun.get(i).y=missingSun.get(i).y-1;
+	missingSun.get(i).h = map(missingSun.get(i).y, 200, 600, 0, 70);
+	if(missingSun.get(i).y<200) {
+		
+		missingSun.get(i).y=500;
+	}
+}
+	
+	
+	y=y-1;
+	
+	h = map(y, 200, 600, 0, 40);
 
-	y=y-1;	
-	h = map(y, 200, 600, 1, 70);
-if (y<200) {
+	
+
+if(y<200) {
 	
 	y=500;
 }
+
+
         // Decrease the y variable of the rectangular section created in PART 3.
         // If there isn't a variable, declare a float variable OUTSIDE of the
         // draw function AND initialize it in the setup() function.
@@ -177,7 +200,8 @@ if (y<200) {
         // h = map(y, missingSectionTopY, missingSectionBottomY, 1, 40);
 
         // The map() function will make the value of h = 1 if y is at the top,
-        // and h = 40 if y is at the bottom.
+        // and h = 40 if y is at the bottom
+
 
         
         /*
@@ -189,20 +213,9 @@ if (y<200) {
         // Figure out how to create the other missing sun sections using the
         // code you wrote for the 1 missing sun section.
         // HINT: You can use the Rectangle class defined below to create
-        // a list of Rectangles.
+// a list of Rectangles.
 
-for (int i = 0; i < 3; i++) {
-	Rectangle r =missingSun.get(i);
-	fill(bgColor);
-	rect(r.x, r.y, r.w, r.h);
-	r.y = r.y-1;
-	//r.h = map(r.y, 200, 600, 1, 70);
-	//if (r.y<200) {
-		
-		//r.y=500;
-	//}
-}
-     
+	
         /*
          * PART 6: Adding extras
          *
@@ -248,4 +261,34 @@ for (int i = 0; i < 3; i++) {
             this.h = h;
         }
     }
+
+class Star {
+  int x;
+  int y;
+  Color starColor;
+  double startAlpha;
+  double alpha;
+  double diameter;
+
+  Star(int x, int y, Color col) {
+    this.x = x;
+    this.y = y;
+    starColor = col;
+    this.diameter = random(3);
+    this.startAlpha = random(1, 200);
+    this.alpha = startAlpha;
+  }
+  
+  void setAlpha(int alpha){
+    this.alpha = constrain(alpha,(int) startAlpha, 255);
+  }
+
+  void draw() {
+    noStroke();
+    fill(starColor.getRed(),starColor.getGreen(),starColor.getBlue(),(float) alpha);
+    float blink = random((float)0.8);
+    ellipse((float)x, (float)y, (float)diameter + blink, (float)diameter + blink);
+  }
+       
+}
 }

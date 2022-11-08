@@ -78,7 +78,13 @@ public class _02_LogSearch implements ActionListener {
 
 			int entryv = Integer.parseInt(entryvs);
 			String entryS = JOptionPane.showInputDialog("Please enter a valid name.");
+			if (entryS.isEmpty()) {
+				return;
+				
+			}
+			else {
 			NameHash.put(entryv, entryS);
+			}
 
 		}
 		if (e.getSource() == jb2) {
@@ -102,7 +108,7 @@ public class _02_LogSearch implements ActionListener {
 			JOptionPane.showMessageDialog(null, string, "View List", JOptionPane.INFORMATION_MESSAGE);
 		}
 		if (e.getSource() == jb4) {
-			String removes = JOptionPane.showInputDialog("Please neter the ID of the entry you would like to remove");
+			String removes = JOptionPane.showInputDialog("Please enter the ID of the entry you would like to remove");
 			int remove = Integer.parseInt(removes);
 			if (NameHash.containsKey(remove)) {
 				JOptionPane

@@ -1,5 +1,8 @@
 package _07_Meeting_Scheduler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class MeetingScheduler {
     /*
      * Your task is to code a method to find a meeting time for two people
@@ -22,7 +25,28 @@ public class MeetingScheduler {
      * Assume both schedules are in the same time zones
      */
     public static Schedule getMutualAvailability(Schedule person1, Schedule person2) {
-        
-        return null;
+    	HashMap<String, ArrayList<Integer>> Schedule = new HashMap<String, ArrayList<Integer>>();
+    	if (person1.getSchedule().get("Monday")==person2.getSchedule().get("Monday")) {
+    		Schedule.put("Monday", person1.getSchedule().get("Monday"));
+	    	}
+    	else if (person1.getSchedule().get("Tuesday")==person2.getSchedule().get("Tuesday")) {
+    		Schedule.put("Tuesday", person1.getSchedule().get("Tuesday"));
+	    	}
+    	else if (person1.getSchedule().get("Wednesday")==person2.getSchedule().get("Wednesday")) {
+    		Schedule.put("Wednesday", person1.getSchedule().get("Wednesday"));
+	    	}
+    	else if (person1.getSchedule().get("Thursday")==person2.getSchedule().get("Thursday")) {
+    		Schedule.put("Thursday", person1.getSchedule().get("Thursday"));
+	    	}
+    	else if (person1.getSchedule().get("Friday")==person2.getSchedule().get("Friday")) {
+    		Schedule.put("Friday", person1.getSchedule().get("Friday"));
+	    	}
+    	else if (person1.getSchedule().get("Saturday")==person2.getSchedule().get("Saturday")) {
+    		Schedule.put("Saturday", person1.getSchedule().get("Saturday"));
+	    	}
+    	else if (person1.getSchedule().get("Sunday")==person2.getSchedule().get("Sunday")) {
+    		Schedule.put("Sunday", person1.getSchedule().get("Sunday"));
+	    	}
+        return ;
     }
 }

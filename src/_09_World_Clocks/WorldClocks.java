@@ -6,7 +6,9 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -41,17 +43,20 @@ public class WorldClocks implements ActionListener {
 
     JFrame frame;
     JPanel panel;
+    JButton jb;
     JTextArea textArea;
     
     String city;
     String dateStr;
     String timeStr;
-    
+    String citywant;
     public WorldClocks() {
         clockUtil = new ClockUtilities();
 
         // The format for the city must be: city, country (all caps)
-        city = "Chicago, US";
+        //city = "Chicago, US";
+        String  citywant= JOptionPane.showInputDialog(null,"Input a city to add the time for ((Format: City, Country)EX: Chicago US):");
+     city = citywant;
         timeZone = clockUtil.getTimeZoneFromCityName(city);
         
         Calendar calendar = Calendar.getInstance(timeZone);
@@ -62,13 +67,19 @@ public class WorldClocks implements ActionListener {
         System.out.println(dateStr);
 
         // Sample starter program
+        jb = new JButton();
+        jb.setText("Add Time");
+        jb.setFocusable(false);
         frame = new JFrame();
         panel = new JPanel();
         textArea = new JTextArea();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setSize(100, 100);
+        panel.add(jb);
         frame.add(panel);
+       
+        jb.addActionListener(this);
         panel.add(textArea);
         textArea.setText(city + "\n" + dateStr);
         
@@ -80,6 +91,12 @@ public class WorldClocks implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
+    	if (arg0.getSource()==jb) {
+    		  String  citywant= JOptionPane.showInputDialog(null,"Input a city to add the time for ((Format: City, Country)EX: Chicago US):");
+    		   
+    		  city = citywant;
+		}
+    	else {
         Calendar c = Calendar.getInstance(timeZone);
         String militaryTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
         String twelveHourTime = " [" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND) + "]";
@@ -88,5 +105,8 @@ public class WorldClocks implements ActionListener {
         System.out.println(timeStr);
         textArea.setText(city + "\n" + dateStr + "\n" + timeStr);
         frame.pack();
+    	}
+       
     }
+   
 }

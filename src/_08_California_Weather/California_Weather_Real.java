@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,9 +42,9 @@ public void actionPerformed(ActionEvent e) {
 		String CityName =JOptionPane.showInputDialog("Input a city in California to see its current temperature");
 		WeatherData datum = weatherData.get(CityName);
 		 if( datum == null ) {
-	            System.out.println("Unable to find weather data for: " + CityName);
+			 JOptionPane.showMessageDialog(null,"Unable to find weather data for: " + CityName);
 	        } else {
-	            System.out.println(CityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F");
+	        	 JOptionPane.showMessageDialog(null,CityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F");
 	        }
 	}
 	if (e.getSource()== jb2) {
@@ -51,10 +52,22 @@ public void actionPerformed(ActionEvent e) {
 			String TempSearchstr=JOptionPane.showInputDialog("Input a temperature to see what cities are currently at the specified temperature.");
 	Double TempSearch =Double.parseDouble(TempSearchstr);
 	  ArrayList<String> citiesatt = new ArrayList<String>();
-	  if (weatherData.containsValue(TempSearch)) {
+	 for (String city : weatherData.keySet()) {
 		
-	}
 	
+	
+	  if (weatherData.get(city).temperatureF>TempSearch-1&&weatherData.get(city).temperatureF<TempSearch+1) {
+		  citiesatt.add(city);
+	}
+	 }
+	 String citystr = new String();
+	 for (int i = 0; i < citiesatt.size(); i++) {
+		citystr= citystr+citiesatt.get(i)+", ";
+		if (i%4==0&&i!=0) {
+			citystr=citystr+"\n";
+		}
+	}
+	 JOptionPane.showMessageDialog(null, "Cities currently at "+ (TempSearch-1)+" to "+(TempSearch+1)+" degrees: \n"+citystr);
 	
 	
 	}
